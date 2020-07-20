@@ -15,14 +15,14 @@ Base = automap_base()
 # reflect the tables
 Base.prepare(engine, reflect=True)
 
-#save references to the tables
+# #save references to the tables
 Measurement = Base.classes.measurement
 Station = Base.classes.station
 
 #flask set up
 app = Flask(__name__)
 
-#flask routes 
+# #flask routes 
 
 @app.route("/")
 def root():
@@ -30,24 +30,27 @@ def root():
     return (
         f"Available API routes:<br/>"
         f"/api/v1.0/precipitation<br/>"
-        f"/api/v1.0/stations<br/>"
+        f"/api/v1.0/station<br/>"
         f"/api/v1.0/tobs<br/>"
         f"/api/v1.0/<start><br/>"
         f"//api/v1.0/<start>/<end>")
 
-@app.route("/api/v1.0/precipitation")
-def precipitation():
-    #create session from python to db
-    results = Session.query(Measurement.date, Measurement.prcp).all()
-    Session.close()
-    #convert results into list
-    perc_data = list(np.ravel(results))
-    return jsonify(perc_data)
+# @app.route("/api/v1.0/precipitation")
+# def precipitation():
+#     #create session from python to db
+#     session = Session(engine)
 
-# def stations():
-# /api/v1.0/stations
-# /api/v1.0/stations
-# /api/v1.0/<start> and /api/v1.0/<start>/<end>
+#     #query
+#     results = session.query(Measurement.date, Measurement.prcp).all()
+#     session.close()
+#     #convert results into list
+#     perc_data = list(np.ravel(results))
+#     return jsonify(perc_data)
+
+# # def stations():
+# # /api/v1.0/stations
+# # /api/v1.0/stations
+# # /api/v1.0/<start> and /api/v1.0/<start>/<end>
 
 
 
